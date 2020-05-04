@@ -3,19 +3,40 @@ import './App.css';
 
 const App = () => {
     const [ collection, setCollection ] = useState([]);
+    const [ imageConfig, setImageConfig ] = useState({});
     const apiKey = process.env.REACT_APP_API_KEY;
-    const results = collection.map((item) => <h3>{item.title}</h3>);
+
+    const results = collection.map((item) => {
+        return(
+            <div key={item.id}>
+                <div>
+                    <img src={`${imageConfig.secure_base_url}w185${item.poster_path}`}></img>
+                </div>
+                <h3>{item.title || item.name}</h3>
+                <p>{item.media_type} {item.release_date || item.first_air_date}</p>
+                <p>{item.overview}</p>
+                <p>{item.vote_average}</p>
+            </div>
+        )
+    });
+    const getConfig = async () => {
+        fetch(`https://api.themoviedb.org/3/configuration?api_key=${apiKey}`)
+            .then(res => res.json())
+            .then(response => setImageConfig(response.images))
+            .catch(error => console.log(error));
+    };
+
+    const getInitialCollection = async () => {
+        fetch(`https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}`)
+            .then(res => res.json())
+            .then(response => setCollection(response.results))
+            .catch((error) => console.log(error));
+    }
 
     useEffect(() => {
-        const fetchResults = async () => {
-            const res = await fetch(`https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}`);
-            res.json()
-                .then((data) => setCollection(data.results))
-                .catch((error) => console.log(error));
-        };
-
-        fetchResults();
-    })
+        getConfig();
+        getInitialCollection();
+    }, []);
 
     return (
         <div className="App">
