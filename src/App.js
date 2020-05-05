@@ -1,50 +1,57 @@
 import React, { useEffect, useState } from 'react';
+import tmdbClient from './api/tmdbClient';
+import Results from './components/Results';
 import './App.css';
 
 const App = () => {
-    const [ collection, setCollection ] = useState([]);
-    const [ imageConfig, setImageConfig ] = useState({});
-    const apiKey = process.env.REACT_APP_API_KEY;
-
-    const results = collection.map((item) => {
-        return(
-            <div key={item.id}>
-                <div>
-                    <img src={`${imageConfig.secure_base_url}w185${item.poster_path}`}></img>
-                </div>
-                <h3>{item.title || item.name}</h3>
-                <p>{item.media_type} {item.release_date || item.first_air_date}</p>
-                <p>{item.overview}</p>
-                <p>{item.vote_average}</p>
-            </div>
-        )
-    });
-    const getConfig = async () => {
-        fetch(`https://api.themoviedb.org/3/configuration?api_key=${apiKey}`)
-            .then(res => res.json())
-            .then(response => setImageConfig(response.images))
-            .catch(error => console.log(error));
-    };
-
-    const getInitialCollection = async () => {
-        fetch(`https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}`)
-            .then(res => res.json())
-            .then(response => setCollection(response.results))
-            .catch((error) => console.log(error));
-    }
+    // State to hold the results of the user's search query
+    const [ results, setResults ] = useState([]);
+    // State to hold the list of trending items as a placeholder before the user's provides a query
+    const [ trending, setTrending ] = useState([]);
+    // Store the current page/s displayed to implement infinite scrolling/pagination
+    const [ page, setPage ] = useState(1);
+    // Store the user's query on search submit to pass into a fetch request.
+    const [ query, setQuery ] = useState('');
+    // Control the input state of the search bar until user submission
+    const [ input, setInput ] = useState('');
 
     useEffect(() => {
-        getConfig();
-        getInitialCollection();
-    }, []);
+        if (trending.length === 0){
+            tmdbClient.get('/trending/all/week')
+                .then(response => {
+                    setTrending(response.data.results);
+                })
+                .catch(err => console.log(err));
+        }
+
+        if (query) {
+            tmdbClient.get(`/search/multi?language=en-US&query=${query}&page=${page}&include_adult=false`)
+                .then(response => {
+                    setResults(response.data.results);
+                })
+                .catch(err => console.log(err));
+        }
+        
+    }, [page, query]);
+
+    const onSearchSubmit = (event) => {
+        setQuery(input);
+        event.preventDefault();
+    };
 
     return (
         <div className="App">
             <header>
-                {/* {Set up search bar} */}
+                <div>
+                    <form id="search-bar" onSubmit={onSearchSubmit}>
+                        <label htmlFor="input">Search</label>
+                        <input type="text" id="input" name="input" value={input} onChange={event => setInput(event.target.value)}/>
+                        <input type="submit" value="Search" form="search-bar" />
+                    </form>
+                </div>
             </header>
-            {/* Create a component and map the collection to each component.*/}
-            <div>{results}</div>
+            {/* Create a component and pass the results collection to each component.*/}
+            <Results trending={trending} results={results} />
         </div>
     );
 }
