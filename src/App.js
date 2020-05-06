@@ -4,10 +4,8 @@ import Results from './components/Results';
 import './App.css';
 
 const App = () => {
-    // State to hold the results of the user's search query
+    // State to hold the results of the current api data request
     const [ results, setResults ] = useState([]);
-    // State to hold the list of trending items as a placeholder before the user's provides a query
-    const [ trending, setTrending ] = useState([]);
     // Store the current page/s displayed to implement infinite scrolling/pagination
     const [ page, setPage ] = useState(1);
     // Store the user's query on search submit to pass into a fetch request.
@@ -16,22 +14,19 @@ const App = () => {
     const [ input, setInput ] = useState('');
 
     useEffect(() => {
-        if (trending.length === 0){
+        if (!query){
             tmdbClient.get('/trending/all/week')
                 .then(response => {
-                    setTrending(response.data.results);
+                    setResults(response.data.results);
                 })
                 .catch(err => console.log(err));
-        }
-
-        if (query) {
+        } else {
             tmdbClient.get(`/search/multi?language=en-US&query=${query}&page=${page}&include_adult=false`)
                 .then(response => {
                     setResults(response.data.results);
                 })
                 .catch(err => console.log(err));
         }
-        
     }, [page, query]);
 
     const onSearchSubmit = (event) => {
@@ -50,8 +45,8 @@ const App = () => {
                     </form>
                 </div>
             </header>
-            {/* Create a component and pass the results collection to each component.*/}
-            <Results trending={trending} results={results} />
+            {/* Pass the current collection to each component.*/}
+            <Results results={results} />
         </div>
     );
 }

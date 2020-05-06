@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import ItemCard from './ItemCard';
+import React, { useState, useEffect } from 'react';
 import tmdbClient from '../api/tmdbClient';
+import { ConfigContext, ItemContext } from '../context';
+import ItemCard from './ItemCard';
+import TrailerPanel from './elements/TrailerPanel';
+
 
 const Results = (props) => {
-    const { trending, results } = props;
+    const { results } = props;
     const [ imageUrl, setImageUrl ] = useState('');
+    const [ youtubeId , setYoutubeId ] = useState('');
 
     useEffect(() => {
         tmdbClient.get('/configuration')
@@ -14,22 +18,20 @@ const Results = (props) => {
             .catch(err => console.log(err));
     });
 
-    if (results.length > 0) {
-        return (
-            <div>
-                {results.map((item) => {
-                    return <ItemCard key={item.id} item={item} imageUrl={imageUrl} />
-                })}
-            </div>
-        )
-    };
 
     return (
-        <div>
-            {trending.map((item) => {
-                return <ItemCard key={item.id} item={item} imageUrl={imageUrl} />
-            })}
-        </div>
+        <section id="results-container">
+            <ConfigContext.Provider value={imageUrl}>
+                {results.map((item) => {
+                    return (
+                        <ItemContext.Provider value={item} key={item.id}>
+                            <ItemCard key={item.id} setYoutubeId={setYoutubeId}/>
+                        </ItemContext.Provider>
+                    )
+                })}
+            </ConfigContext.Provider>
+            <TrailerPanel youtubeId={youtubeId} setYoutubeId={setYoutubeId} />
+        </section>
     );
 };
 

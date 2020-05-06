@@ -1,20 +1,18 @@
 import React from 'react';
-import noImageSrc from '../assets/images/no-image-available.jpg';
+import CardImage from './elements/CardImage';
+import CardHeader from './elements/CardHeader';
+import CardText from './elements/CardText';
+import CardFooter from './elements/CardFooter';
 
 const ItemCard = (props) => {
-    const { item, imageUrl } = props;
-    const imageSrc = item.poster_path || item.profile_path ? `${imageUrl}${item.poster_path || item.profile_path}` : noImageSrc;
-    
+    const {setYoutubeId } = props;
     return (
-        <div id={item.id}>
+        <div className="item-card">
+            <CardImage/>
             <div>
-                <img src={imageSrc} alt={item.title}></img>
-            </div>
-            <div>
-                <h2>{item.title || item.name}</h2>
-                <p><button>{item.media_type}</button>{item.first_air_date || item.release_date}</p>
-                <p>{item.overview}</p>
-                <p>{item.vote_average}<button>{item.id}Check for trailer</button></p>
+                <CardHeader />
+                <CardText />
+                <CardFooter setYoutubeId={setYoutubeId} />
             </div>
         </div>
     )
