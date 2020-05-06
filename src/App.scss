@@ -1,0 +1,27 @@
+
+.item-card {
+    display: flex;
+}
+
+#modal-trailer-panel {
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    div {
+        padding: 5vh;
+        background-color: white;
+        border-radius: 20px;
+        position: relative;
+        button {
+            position: absolute;
+            top: 1vh;
+            right: 2vw;
+        }
+    }
+}

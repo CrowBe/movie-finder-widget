@@ -38,7 +38,7 @@ const CardFooter = (props) => {
                 <div className="card-ratings-bar"><div className="card-ratings-colour" style={{width: `${rating}%`}}></div></div>
             </div>
             <div>
-                {item.media_type === "movie" ? <button onClick={onPlayTrailer} id={trailerKey} className="card-trailer-button">{trailerKey ? "Play Now" : "Trailer Unavailable"}</button> : null}
+                {item.media_type === "movie" ? <button onClick={onPlayTrailer} id={trailerKey} className="card-trailer-button">{trailerKey ? "Play Trailer" : "Trailer Unavailable"}</button> : null}
             </div>
         </div>
     )

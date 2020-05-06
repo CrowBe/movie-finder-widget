@@ -10,10 +10,12 @@ const TrailerPanel = (props) => {
 
     return (
         <div id="modal-trailer-panel">
-            <button onClick={closeTrailer}>Close</button>
-            <iframe title={youtubeId} width="560" height="315"
-            src={`https://www.youtube.com/embed/${youtubeId}?&autoplay=1frameborder="0" 
-            allowfullscreen`}></iframe>
+            <div>
+                <button onClick={closeTrailer}>X</button>
+                <iframe title={youtubeId} width="560" height="315"
+                src={`https://www.youtube.com/embed/${youtubeId}?&autoplay=1frameborder="0" 
+                allowfullscreen`}></iframe>
+            </div>
         </div>
     )
 }
