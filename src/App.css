@@ -1,5 +1,200 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+body {
+  font-family: "Roboto", sans-serif;
+  max-width: 100vw;
+  overflow: scroll;
+  color: #17344A;
+}
+body h3 {
+  font-size: 3vh;
+}
+body p {
+  font-size: 2vh;
+  margin: 0;
+}
+
+.app {
+  border: 1px solid #b4b4b4;
+  -webkit-box-shadow: 0 0 10px #b4b4b4;
+  border-radius: 2px;
+  box-shadow: 0 0 10px #b4b4b4;
+  margin: 1vh;
+  overflow: hidden;
+}
+
+#logo-header-div {
+  background-color: #335267;
+  padding: 15px;
+  margin: 0;
+  margin-bottom: 10px;
+  max-width: 100%;
+  line-height: 0;
+}
+#logo-header-div div img {
+  max-width: 90vw;
+  height: auto;
+  margin-left: 10px;
+}
+
+#search-bar {
+  position: relative;
+  overflow: hidden;
+}
+#search-bar div {
+  display: flex;
+  max-width: 90vw;
+  margin: auto;
+  padding: 2vh 0;
+}
+#search-bar div label {
+  position: absolute;
+  align-self: center;
+  padding-left: 12px;
+}
+#search-bar div label img {
+  display: block;
+  height: 12px;
+  width: auto;
+}
+#search-bar div input {
+  padding: 8px 30px;
+  color: #17344A;
+}
+#search-bar div input[type=text] {
+  flex-grow: 1;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #D5DFE6;
+  background-color: #F9FBFC;
+}
+#search-bar div input[type=text]::placeholder {
+  color: #7992A5;
+}
+#search-bar div input[type=text]:focus {
+  outline: none;
+  border: 1px solid #647F93;
+  background-color: #FCFDFE;
+}
+#search-bar div input[type=text]:hover {
+  border: 1px solid #647F93;
+  background-color: #FCFDFE;
+}
+#search-bar div input[type=submit] {
+  border-radius: 0 5px 5px 0;
+  font-family: "Open Sans", sans-serif;
+  border: 1px solid #D5DFE6;
+  border-left: 0;
+  background: linear-gradient(0deg, #d9e3e8 0%, white 100%);
+}
+#search-bar div input[type=submit]:hover {
+  background: none;
+  background-color: #FCFDFE;
+}
+#search-bar div input[type=submit]:focus {
+  background: linear-gradient(0deg, white 91%, #bcc5c9 100%);
+}
+
 .item-card {
   display: flex;
+  height: 30vh;
+  max-width: 90vw;
+  margin: auto;
+  border-top: 1.2px solid #D5DFE6;
+}
+.item-card .card-image-div {
+  display: flex;
+  align-items: center;
+}
+.item-card .card-image-div img {
+  height: 26vh;
+  width: auto;
+  display: block;
+}
+.item-card .item-card-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 30vh;
+  padding-left: 2vw;
+}
+.item-card .item-card-content .card-header-div {
+  height: 40%;
+}
+.item-card .item-card-content .card-header-div h3 {
+  margin: 10px 0;
+}
+.item-card .item-card-content .card-header-div h3 strong {
+  color: #647F93;
+}
+.item-card .item-card-content .card-header-div p {
+  margin: 10px 0;
+  color: #647F93;
+}
+.item-card .item-card-content .card-header-div p button {
+  background-color: white;
+  border: 1px solid #D5DFE6;
+  border-radius: 4px;
+  padding: 3px 5px;
+  box-shadow: none;
+  color: #647F93;
+}
+.item-card .item-card-content .card-text-div {
+  margin: 0 0 1em 0;
+  overflow: hidden;
+  --lh: 1.2rem;
+  line-height: var(--lh);
+  --max-lines: 4;
+  position: relative;
+  height: calc(var(--lh) * var(--max-lines));
+}
+.item-card .item-card-content .card-text-div p {
+  margin: 0;
+}
+.item-card .item-card-content .card-footer-div {
+  height: 25%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.item-card .item-card-content .card-footer-div button {
+  white-space: nowrap;
+  border-radius: 20px;
+  padding: 7px 10px;
+  background-color: #82C91E;
+  color: #EBF3F5;
+  border: none;
+}
+.item-card .item-card-content .card-footer-div button .clipped-play-symbol {
+  display: inline-block;
+  background-color: white;
+  width: 12px;
+  height: 14px;
+  margin-right: 5px;
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+}
+.item-card .item-card-content .card-footer-div button:hover {
+  background-color: #66A80F;
+}
+.item-card .item-card-content .card-footer-div .no-trailer-button {
+  background-color: #D5DFE6;
+  color: #647F93;
+}
+.item-card .item-card-content .card-footer-div .no-trailer-button:hover {
+  cursor: not-allowed;
+  background-color: #D5DFE6;
+  cursor: url("assets/not-available-cursor.png"), auto;
+}
+.item-card .item-card-content .card-footer-div .no-trailer-button .clipped-play-symbol {
+  background-color: #647F93;
+}
+.item-card .item-card-content .card-footer-div .card-ratings-div {
+  flex-grow: 1;
+}
+.item-card .item-card-content .card-footer-div .card-ratings-div p {
+  margin: 0;
+}
+.item-card .item-card-content .card-footer-div .card-ratings-div div {
+  background-color: #F03E3E;
 }
 
 #modal-trailer-panel {

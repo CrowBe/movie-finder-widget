@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import tmdbClient from './api/tmdbClient';
 import Results from './components/Results';
+import LogoHeader from './components/LogoHeader';
+import SearchBar from './components/SearchBar';
+import FilterOptions from './components/FilterOptions';
 import './App.css';
+
 
 const App = () => {
     // State to hold the results of the current api data request
@@ -9,9 +13,14 @@ const App = () => {
     // Store the current page/s displayed to implement infinite scrolling/pagination
     const [ page, setPage ] = useState(1);
     // Store the user's query on search submit to pass into a fetch request.
-    const [ query, setQuery ] = useState('');
+    const [ query, setQuery ] = useState("");
     // Control the input state of the search bar until user submission
-    const [ input, setInput ] = useState('');
+    const [ filter, setFilter ] = useState("all");
+    // Store the number of results returned
+    const [ total, setTotal ] = useState(20);
+
+    // Set up Intersection Observer to identify when the user is reaching the end
+    // of the current page of results and trigger another api call to update results state.
 
     useEffect(() => {
         if (!query){
@@ -24,29 +33,23 @@ const App = () => {
             tmdbClient.get(`/search/multi?language=en-US&query=${query}&page=${page}&include_adult=false`)
                 .then(response => {
                     setResults(response.data.results);
+                    setTotal(response.data.total_results);
                 })
                 .catch(err => console.log(err));
         }
-    }, [page, query]);
-
-    const onSearchSubmit = (event) => {
-        setQuery(input);
-        event.preventDefault();
-    };
+        
+    }, [page, query, filter]);
 
     return (
-        <div className="App">
+        <div className="app">
             <header>
-                <div>
-                    <form id="search-bar" onSubmit={onSearchSubmit}>
-                        <label htmlFor="input">Search</label>
-                        <input type="text" id="input" name="input" value={input} onChange={event => setInput(event.target.value)}/>
-                        <input type="submit" value="Search" form="search-bar" />
-                    </form>
-                </div>
+                <LogoHeader />
+                <SearchBar setQuery={setQuery} />
+                <FilterOptions setFilter={setFilter} />
             </header>
             {/* Pass the current collection to each component.*/}
-            <Results results={results} />
+            <h2>{total !== 1 ? `${total} results found` : `${total} result found`}</h2>
+            <Results results={results} filter={filter}/>
         </div>
     );
 }

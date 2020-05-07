@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { ConfigContext, ItemContext } from '../../context';
-import noImageSrc from '../../assets/images/no-image-available.jpg';
+import noImageSrc from '../../assets/no-image-available.jpg';
 
 const ImageCard = () => {
     const imageUrl = useContext(ConfigContext);

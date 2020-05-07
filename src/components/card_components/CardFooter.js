@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ItemContext } from '../../context';
 import tmdbClient from '../../api/tmdbClient';
+import TrailerButton from './TrailerButton';
 
 const CardFooter = (props) => {
     const { setYoutubeId } = props;
@@ -8,23 +9,19 @@ const CardFooter = (props) => {
     const [ trailerKey, setTrailerKey ] = useState('');
     const rating = item.vote_average * 10;
 
-    const onPlayTrailer = (event) => {
-        setYoutubeId(trailerKey);
-    }
-
     useEffect(() => {
         if (item.media_type === "movie") {
             tmdbClient.get(`/movie/${item.id}/videos`)
                 .then(response => {
                     for (let obj of response.data.results) {
                         if (obj.type === "Trailer" && obj.site === "YouTube") {
-                            console.log(`${obj.name} ${obj.key}`)
                             setTrailerKey(obj.key);
                             break;
                         }
                     }
                 })
                 .catch(error => console.log(error));
+            
         };
     }, []);
 
@@ -34,11 +31,11 @@ const CardFooter = (props) => {
     return (
         <div className="card-footer-div" id={item.id}>
             <div className="card-ratings-div">
-                {item.vote_average > 0 ? <span>User Score: <em>{rating}%</em></span> : <span>User Score: <em>Not Rated</em></span>}
+                {item.vote_average > 0 ? <p>User Score: <strong>{rating}%</strong></p> : <p>User Score: <strong>Not Rated</strong></p>}
                 <div className="card-ratings-bar"><div className="card-ratings-colour" style={{width: `${rating}%`}}></div></div>
             </div>
             <div>
-                {item.media_type === "movie" ? <button onClick={onPlayTrailer} id={trailerKey} className="card-trailer-button">{trailerKey ? "Play Trailer" : "Trailer Unavailable"}</button> : null}
+                {item.media_type === "movie" ? <TrailerButton setYoutubeId={setYoutubeId} available={trailerKey} /> : null}
             </div>
         </div>
     )

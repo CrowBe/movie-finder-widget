@@ -1,15 +1,15 @@
 import React from 'react';
-import CardImage from './elements/CardImage';
-import CardHeader from './elements/CardHeader';
-import CardText from './elements/CardText';
-import CardFooter from './elements/CardFooter';
+import CardImage from './card_components/CardImage';
+import CardHeader from './card_components/CardHeader';
+import CardText from './card_components/CardText';
+import CardFooter from './card_components/CardFooter';
 
 const ItemCard = (props) => {
     const {setYoutubeId } = props;
     return (
         <div className="item-card">
             <CardImage/>
-            <div>
+            <div className="item-card-content">
                 <CardHeader />
                 <CardText />
                 <CardFooter setYoutubeId={setYoutubeId} />
