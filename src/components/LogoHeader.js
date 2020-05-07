@@ -2,6 +2,7 @@ import React from 'react';
 import logo from '../assets/Logo.png'
 
 const LogoHeader = () => {
+    // Structure the divs for styling the logo
     return (
         <div id="logo-header-div">
             <div>

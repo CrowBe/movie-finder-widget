@@ -36,13 +36,19 @@ body p {
   margin-left: 10px;
 }
 
+#count-description {
+  max-width: 90%;
+  margin: 3vh auto 1vh;
+  font-size: 16px;
+}
+
 #search-bar {
   position: relative;
   overflow: hidden;
 }
 #search-bar div {
   display: flex;
-  max-width: 90vw;
+  max-width: 90%;
   margin: auto;
   padding: 2vh 0;
 }
@@ -93,10 +99,37 @@ body p {
   background: linear-gradient(0deg, white 91%, #bcc5c9 100%);
 }
 
+#filter-options-div {
+  max-width: 90%;
+  margin: auto;
+}
+#filter-options-div button {
+  padding: 5px 6px;
+  min-width: 50px;
+  background-color: white;
+  border: 1px solid #D5DFE6;
+  border-radius: 4px;
+  color: #335267;
+}
+#filter-options-div button:nth-child(2) {
+  margin: 0 2vw;
+}
+#filter-options-div button:nth-child(4) {
+  margin: 0 2vw;
+}
+#filter-options-div button:hover {
+  background-color: #EBF3F5;
+}
+#filter-options-div button:focus {
+  background-color: #17344A;
+  color: white;
+  outline: none;
+}
+
 .item-card {
   display: flex;
   height: 30vh;
-  max-width: 90vw;
+  max-width: 90%;
   margin: auto;
   border-top: 1.2px solid #D5DFE6;
 }

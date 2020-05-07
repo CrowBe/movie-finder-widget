@@ -3,11 +3,15 @@ import { ConfigContext, ItemContext } from '../../context';
 import noImageSrc from '../../assets/no-image-available.jpg';
 
 const ImageCard = () => {
+    // Check the dynamically updated base image url
     const imageUrl = useContext(ConfigContext);
+    // Retrieve the current item
     const item = useContext(ItemContext);
+    // Set the base image to be a no image placeholder
     let imageSrc = noImageSrc;
     let alt = "no image available";
 
+    // logic that checks if the current item has an image path and update the src if it does
     if (item.media_type === "person" && item.profile_path) {
         imageSrc = `${imageUrl}${item.profile_path}`;
         alt = item.name;

@@ -2,13 +2,17 @@ import React, { useContext } from 'react';
 import { ItemContext } from '../../context';
 
 const CardHeader = () => {
-    const item = useContext(ItemContext)
-    let title = ""
-    let info = ""
+    // Retrieve the current item context
+    const item = useContext(ItemContext);
+    // Set up temporary values that will be modified depending on the media type.
+    // This could be improved by splitting the components differently
+    let title = "";
+    let info = "";
     const yearPattern = /\d{4}/;
-    let date = ""
-    let type = ""
+    let date = "";
+    let type = "";
 
+    // Logic that checks the current media type to properly format the item information
     switch(item.media_type) {
         case "person":
             let genders = ["Female", "Male"]
@@ -30,7 +34,7 @@ const CardHeader = () => {
             break;
         default:
             break;
-    }
+    };
     
     return (
         <div className="card-header-div">
@@ -38,6 +42,6 @@ const CardHeader = () => {
             <p><button>{type}</button>{info}</p>
         </div>
     )
-}
+};
 
 export default CardHeader;

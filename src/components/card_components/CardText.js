@@ -8,6 +8,7 @@ const CardText = () => {
     const [ text, setText] = useState(item.overview);
 
     useEffect(() => {
+        // Retrieve biography information for the person media type
         if (item.media_type === "person") {
             tmdbClient.get(`/person/${item.id}`)
                 .then(response => setText(response.data.biography))
@@ -17,8 +18,9 @@ const CardText = () => {
         // cut off the text at the end of the container and place an ellipsis.
         const element = document.getElementById(`${item.id}text`);
         const ellipsis = new Ellipsis(element);
-
+        // Works out the target height
         ellipsis.calc();
+        // Cuts off the text and sets an ellipsis in the correct location dynamically
         ellipsis.set();
     }, [text]);
 

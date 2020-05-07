@@ -53,12 +53,18 @@ body {
     }
 }
 
+#count-description {
+    max-width: 90%;
+    margin: 3vh auto 1vh;
+    font-size: 16px;
+}
+
 #search-bar {
     position: relative;
     overflow: hidden;
     div {
         display: flex;
-        max-width: 90vw;
+        max-width: 90%;
         margin: auto;
         padding: 2vh 0;
         label {
@@ -111,10 +117,37 @@ body {
     }
 }
 
+#filter-options-div {
+    max-width: 90%;
+    margin: auto;
+    button {
+        padding: 5px 6px;
+        min-width: 50px;
+        background-color: white;
+        border: 1px solid $trailer-unavailable-color;
+        border-radius: 4px;
+        color: $logo-backing-colour;
+        &:nth-child(2) {
+            margin: 0 2vw;
+        }
+        &:nth-child(4) {
+            margin: 0 2vw;
+        }
+        &:hover {
+            background-color: $filter-hover-color;
+        }
+        &:focus {
+            background-color: $primary-color;
+            color: white;
+            outline: none;
+        }
+    }
+}
+
 .item-card {
     display: flex;
     height: 30vh;
-    max-width: 90vw;
+    max-width: 90%;
     margin: auto;
     border-top: 1.2px solid $trailer-unavailable-color;
     .card-image-div {

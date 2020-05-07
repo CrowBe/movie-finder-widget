@@ -48,8 +48,7 @@ const App = () => {
                 <FilterOptions setFilter={setFilter} />
             </header>
             {/* Pass the current collection to each component.*/}
-            <h2>{total !== 1 ? `${total} results found` : `${total} result found`}</h2>
-            <Results results={results} filter={filter}/>
+            <Results results={results} filter={filter} total={total} />
         </div>
     );
 }
