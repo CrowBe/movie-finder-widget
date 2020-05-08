@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/Logo.png'
+import logo from '../assets/Logo@2x.png'
 
 const LogoHeader = () => {
     // Structure the divs for styling the logo

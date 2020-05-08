@@ -16,26 +16,27 @@ const CardHeader = () => {
     switch(item.media_type) {
         case "person":
             let genders = ["Female", "Male"]
-            title = <h3>{item.name}</h3>;
+            title = <h3 id={`${item.id}h3`}>{item.name}</h3>;
             type = "People"
             info = ` Gender: ${genders[item.gender - 1]}`;
             break;
         case "tv":
             type = "TV Show"
             date = item.first_air_date.replace(/-/g, "/");
-            title = <h3>{item.name}<strong>{` (${date.match(yearPattern)})`}</strong></h3>;
+            title = <h3 id={`${item.id}h3`}>{item.name}<strong>{` (${date.match(yearPattern)})`}</strong></h3>;
             info =` First air date: ${date}`;
             break;
         case "movie":
             type = "Movie"
             date = item.release_date.replace(/-/g, "/");
-            title = <h3>{item.title}<strong>{` (${date.match(yearPattern)})`}</strong></h3>;
+            title = <h3 id={`${item.id}h3`}>{item.title}<strong>{` (${date.match(yearPattern)})`}</strong></h3>;
             info = ` Release date: ${date}`
             break;
         default:
             break;
     };
-    
+
+    // Improve styling to show an ellipsis when the title takes more than two lines.
     return (
         <div className="card-header-div">
             {title}

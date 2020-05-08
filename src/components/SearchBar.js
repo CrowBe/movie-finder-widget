@@ -3,7 +3,7 @@ import searchIcon from '../assets/Icons-search@1x.png'
 
 const SearchBar = (props) => {
     // State setter for setting a search query.
-    const { setQuery } = props;
+    const { setQuery, setPage } = props;
     // local piece of state to ensure the text input is controlled
     const [ input, setInput ] = useState('');
 
@@ -11,7 +11,16 @@ const SearchBar = (props) => {
     const onSearchSubmit = (event) => {
         setQuery(input);
         event.preventDefault();
+        document.getElementById("search-clear-button").classList.toggle("shown");
     };
+
+    const clearQuery = (event) => {
+        setQuery("");
+        setInput("")
+        setPage(1);
+        event.target.classList.remove("shown");
+        event.preventDefault();
+    }
 
     // basic search bar
     return (
@@ -19,6 +28,7 @@ const SearchBar = (props) => {
             <div>
                 <label htmlFor="input"><img src={searchIcon} alt="magnifying glass"/></label>
                 <input type="text" id="input" name="input" value={input} onChange={event => setInput(event.target.value)} placeholder="Search for movies, tv shows or people..."/>
+                <button onClick={clearQuery} id="search-clear-button">clear</button>
                 <input type="submit" value="Search" form="search-bar" />
             </div>
         </form>

@@ -19,7 +19,7 @@ const App = () => {
     // Store the number of results returned
     const [ total, setTotal ] = useState(20);
 
-    // Set up Intersection Observer to identify when the user is reaching the end
+    // TODO: Set up Intersection Observer to identify when the user is reaching the end
     // of the current page of results and trigger another api call to update results state.
 
     useEffect(() => {
@@ -32,19 +32,24 @@ const App = () => {
         } else {
             tmdbClient.get(`/search/multi?language=en-US&query=${query}&page=${page}&include_adult=false`)
                 .then(response => {
-                    setResults(response.data.results);
                     setTotal(response.data.total_results);
+                    if ( page === 1) {
+                        setResults(response.data.results);
+                    } else {
+                        setResults(...results, response.data.results)
+                    }
                 })
                 .catch(err => console.log(err));
         }
-        
+        // The dependencies below trigger a warning, but following the suggestion causes
+        // looping. See https://medium.com/@andrewmyint/infinite-loop-inside-useeffect-react-hooks-6748de62871
     }, [page, query, filter]);
 
     return (
         <div className="app">
             <header>
                 <LogoHeader />
-                <SearchBar setQuery={setQuery} />
+                <SearchBar setQuery={setQuery} setPage={setPage} />
                 <FilterOptions setFilter={setFilter} />
             </header>
             {/* Pass the current collection to each component.*/}

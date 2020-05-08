@@ -4,11 +4,9 @@ React UI for the TMDB Api, particularly the /multi search endpoint.
 
 ## Prerequisites
 
-There are only minor prerequisites for running this project:
+There are some prerequisites for running this project:
 
-1. git cli
-
-2. npm installed locally
+1. A valid api key from The Movie Database. You can [sign up for an account here](https://www.themoviedb.org/account/signup). Once your account is set up you can request an api key on [the settings tab](https://www.themoviedb.org/settings/api) of your account.
 
 ## Installation
 
@@ -20,7 +18,9 @@ To run the project locally:
 
 3. Run `npm install`.
 
-4. Use the `npm start` command - explained further below - to run it locally.
+4. Create a .env file at the root of the directory and paste your api key into it, as shown in the .env.example file, and then save it.
+
+5. Use the `npm start` command - explained further below - to run it locally.
 
 
 ## Standard React Info
@@ -49,5 +49,4 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+The build is minified and the filenames include the hashes.
