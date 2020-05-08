@@ -14,8 +14,8 @@ const CardFooter = (props) => {
 
     // If the item is a movie, make an api call to the database checking if there are any trailers
     useEffect(() => {
-        if (item.media_type === "movie") {
-            tmdbClient.get(`/movie/${item.id}/videos`)
+        if (item.media_type != "person") {
+            tmdbClient.get(`/${item.media_type}/${item.id}/videos`)
                 .then(response => {
                     for (let obj of response.data.results) {
                         if (obj.type === "Trailer" && obj.site === "YouTube") {
@@ -50,7 +50,7 @@ const CardFooter = (props) => {
             </div>
             <div>
                 {/* Check if the item is a movie and return button that will set that id to play in the Trailer iframe */}
-                {item.media_type === "movie" ? <TrailerButton setYoutubeId={setYoutubeId} available={trailerKey} /> : null}
+                <TrailerButton setYoutubeId={setYoutubeId} available={trailerKey} />
             </div>
         </div>
     )
