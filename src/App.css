@@ -115,7 +115,12 @@ body p {
   background: linear-gradient(0deg, white 90%, #bcc5c9 100%);
   outline: none;
 }
-#search-bar #search-clear-button {
+
+#search-bar-container {
+  position: relative;
+}
+
+#search-clear-button {
   display: none;
   position: absolute;
   background: #F9FBFC;
@@ -125,10 +130,10 @@ body p {
   top: 20px;
   color: #3381C9;
 }
-#search-bar #search-clear-button:hover {
+#search-clear-button:hover {
   cursor: pointer;
 }
-#search-bar #search-clear-button.shown {
+#search-clear-button.shown {
   display: block;
 }
 
@@ -335,7 +340,7 @@ body p {
     font-size: 0.9em;
   }
 
-  #search-bar #search-clear-button {
+  #search-clear-button {
     right: 130px;
   }
 }

@@ -49,7 +49,7 @@ const App = () => {
         <div className="app">
             <header>
                 <LogoHeader />
-                <SearchBar setQuery={setQuery} setPage={setPage} />
+                <SearchBar query={query} setQuery={setQuery} setPage={setPage} />
                 <FilterOptions setFilter={setFilter} />
             </header>
             {/* Pass the current collection to each component.*/}
