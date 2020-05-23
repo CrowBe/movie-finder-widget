@@ -34,7 +34,7 @@ const App = () => {
                 .then(response => {
                     setTotal(response.data.total_results);
                     if ( page === 1) {
-                        setResults(response.data.results);
+                        setResults(response => response.data.results);
                     } else {
                         setResults(...results, response.data.results)
                     }
