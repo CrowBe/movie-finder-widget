@@ -1,6 +1,9 @@
 # Movie Widget Project
 
-React UI for the TMDB Api, particularly the /multi search endpoint.
+This Widget was built with create-react-app and functions as a user interface for the API
+built by the developers of The Movie Database. You can check out their website here: [The Movie Database](https://www.themoviedb.org/). You can also learn more about the API here: [API Introduction](https://developers.themoviedb.org/3/getting-started/introduction). All media information, images, trailers etc. are retrieved through their api and are subject to licensing/copyright laws detailed in their documentation [here](https://www.themoviedb.org/documentation/api).
+
+![TMDb Logo - words The Movie DB in green and blue.](/src/assets/tmdb_logo.svg)
 
 ## Prerequisites
 
