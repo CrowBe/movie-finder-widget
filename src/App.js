@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import tmdbClient from './api/tmdbClient';
 import Results from './components/Results';
 import LogoHeader from './components/LogoHeader';
+import AttributionHeader from './components/AttributionHeader';
 import SearchBar from './components/SearchBar';
 import FilterOptions from './components/FilterOptions';
 import './App.css';
@@ -36,7 +37,7 @@ const App = () => {
                     if ( page === 1) {
                         setResults(response.data.results);
                     } else {
-                        setResults(...results, response.data.results)
+                        setResults(...results, response.data.results);
                     }
                 })
                 .catch(err => console.log(err));
@@ -49,6 +50,7 @@ const App = () => {
         <div className="app">
             <header>
                 <LogoHeader />
+                <AttributionHeader />
                 <SearchBar query={query} setQuery={setQuery} setPage={setPage} />
                 <FilterOptions setFilter={setFilter} />
             </header>
