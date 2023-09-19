@@ -1,10 +1,9 @@
-import React from 'react';
 import tmdbLogo from '../assets/tmdb_logo.svg';
 
 const AttributionHeader = () => {
 
-    const showCredits = (event) => {
-        document.getElementById("about-dropdown-content").classList.toggle("show");
+    const showCredits = () => {
+        document.getElementById("about-dropdown-content")?.classList.toggle("show");
     }
 
     return (

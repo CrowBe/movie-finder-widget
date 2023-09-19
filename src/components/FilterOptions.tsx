@@ -1,5 +1,3 @@
-import React from 'react';
-
 const FilterOptions = (props) => {
     // Pull the callback that sets the filter state off props
     const { setFilter } = props;

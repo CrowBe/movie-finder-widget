@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import tmdbClient from '../api/tmdbClient';
 import { ConfigContext, ItemContext } from '../context';
 import ItemCard from './ItemCard';
@@ -15,7 +15,7 @@ const Results = (props) => {
 
     useEffect(() => {
         tmdbClient.get('/configuration')
-            .then(response => {
+            .then((response) => {
                 setImageUrl(`${response.data.images.secure_base_url}w185`)
             })
             .catch(err => console.log(err));

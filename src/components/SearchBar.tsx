@@ -1,4 +1,4 @@
-import React, { useState } from'react';
+import { useState } from 'react';
 import searchIcon from '../assets/Icons-search@1x.png'
 
 const SearchBar = (props) => {
@@ -11,7 +11,7 @@ const SearchBar = (props) => {
     const onSearchSubmit = (event) => {
         setQuery(input);
         event.preventDefault();
-        document.getElementById("search-clear-button").classList.add("shown");
+        document.getElementById("search-clear-button")?.classList.add("shown");
     };
 
     const clearQuery = (event) => {
@@ -28,7 +28,7 @@ const SearchBar = (props) => {
         // hide the clear button.
         if (event.target.value === "" && query !== "") {
             setQuery("");
-            document.getElementById("search-clear-button").classList.remove("shown");
+            document.getElementById("search-clear-button")?.classList.remove("shown");
         }
     }
 
