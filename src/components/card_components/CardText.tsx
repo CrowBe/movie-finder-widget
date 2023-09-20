@@ -1,31 +1,31 @@
-import { useContext, useEffect, useState } from 'react';
-import { ItemContext } from '../../context';
-import tmdbClient from '../../api/tmdbClient';
-import LinesEllipsis from 'react-lines-ellipsis';
+import { useEffect, useState } from "react";
+import tmdbClient from "../../api/tmdbClient";
+import LinesEllipsis from "react-lines-ellipsis";
+import { ResultItem } from "../../App";
 
-const CardText = () => {
-    const item = useContext(ItemContext);
-    const [ text, setText] = useState(item.overview);
+const CardText = ({ item }: { item: ResultItem }) => {
+    const [text, setText] = useState<string>(item.overview);
 
     useEffect(() => {
         // Retrieve biography information for the person media type
         if (item.media_type === "person") {
-            tmdbClient.get(`/person/${item.id}`)
-                .then(response => setText(response.data.biography))
-                .catch(error => console.log(error));
-        };
-    }, [text]);
+            tmdbClient
+                .get(`/person/${item.id}`)
+                .then((response) => setText(response.data.biography))
+                .catch((error) => console.log(error));
+        }
+    }, [item]);
 
     return (
         <LinesEllipsis
-            className='card-text-div'
+            className="card-text-div"
             text={text || "No Information Available."}
-            maxLine='3'
-            ellipsis='...'
+            maxLine="3"
+            ellipsis="..."
             trimRight
-            basedOn='letters'
+            basedOn="letters"
         />
-    )
-}
+    );
+};
 
-export default CardText
+export default CardText;

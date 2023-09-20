@@ -1,32 +1,31 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import searchIcon from '../assets/Icons-search@1x.png'
 
-const SearchBar = (props) => {
+const SearchBar = (props: { query: string, setQuery: React.Dispatch<SetStateAction<string>>, setPage: React.Dispatch<SetStateAction<number>> } ) => {
     // State setter for setting a search query.
     const { query, setQuery, setPage } = props;
     // local piece of state to ensure the text input is controlled
     const [ input, setInput ] = useState('');
 
     // Event handler that handles search submission by passing current input state to query setter
-    const onSearchSubmit = (event) => {
+    const onSearchSubmit = (event: React.FormEvent) => {
         setQuery(input);
         event.preventDefault();
         document.getElementById("search-clear-button")?.classList.add("shown");
     };
 
-    const clearQuery = (event) => {
+    const clearQuery = (event: React.MouseEvent<HTMLButtonElement>) => {
         setInput("")
         setQuery("");
         setPage(1);
-        event.target.classList.remove("shown");
+        event.currentTarget.classList.remove("shown");
         event.preventDefault();
     }
 
-    const onSearchChange = (event) => {
-        setInput(event.target.value)
-        // If the user manually removes the search term. Set the query back to nothing and
-        // hide the clear button.
-        if (event.target.value === "" && query !== "") {
+    const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInput(event.currentTarget.value)
+        // If the user manually removes the search term. Set the query back to nothing and hide the clear button
+        if (event.currentTarget.value === "" && query !== "") {
             setQuery("");
             document.getElementById("search-clear-button")?.classList.remove("shown");
         }

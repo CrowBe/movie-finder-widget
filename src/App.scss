@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css?family=Mukta|Open+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap");
 
-$primary-font: 'Mukta', Verdana, sans-serif;
-$primary-color: #17344A;
-$primary-color-faded: #647F93;
+$primary-font: "Mukta", Verdana, sans-serif;
+$primary-color: #17344a;
+$primary-color-faded: #647f93;
 $logo-backing-colour: #335267;
-$faded-grey: #D5DFE6;
-$filter-hover-color: #EBF3F5;
-$play-trailer-color: #82C91E;
-$play-trailer-hover-color: #66A80F;
-$element-white: #FCFDFE;
+$faded-grey: #d5dfe6;
+$filter-hover-color: #ebf3f5;
+$play-trailer-color: #82c91e;
+$play-trailer-hover-color: #66a80f;
+$element-white: #fcfdfe;
 
 :root {
     --rating-width: 0%;
-    --rating-color: #F03E3E;
+    --rating-color: #f03e3e;
 }
 
 body {
@@ -23,7 +23,8 @@ body {
     color: $primary-color;
     h3 {
         font-size: 1.2em;
-        font-family: 'Open Sans', 'Lucida Sans', 'Lucida Sans Regular', Verdana, sans-serif;
+        font-family: "Open Sans", "Lucida Sans", "Lucida Sans Regular", Verdana,
+            sans-serif;
     }
     p {
         font-size: 2vh;
@@ -38,7 +39,6 @@ body {
     -webkit-box-shadow: 0 0 5px $faded-grey;
     margin: 3px;
 }
-
 
 #logo-header-div {
     position: relative;
@@ -57,8 +57,6 @@ body {
         }
     }
 }
-
-
 
 #search-bar {
     position: relative;
@@ -83,11 +81,11 @@ body {
             color: $primary-color;
         }
 
-        input[type=text] {
+        input[type="text"] {
             flex-grow: 1;
             border-radius: 4px 0 0 4px;
             border: 1.1px solid $faded-grey;
-            background-color: #F9FBFC;
+            background-color: #f9fbfc;
             padding-left: 35px;
             font-size: 0.9em;
             &::placeholder {
@@ -104,20 +102,28 @@ body {
             }
         }
 
-        input[type=submit] {
+        input[type="submit"] {
             border-radius: 0 4px 4px 0;
             font-family: $primary-font;
             font-size: 1em;
             border: 1.1px solid $faded-grey;
             padding: 0 24px;
             border-left: 0;
-            background: linear-gradient(0deg, rgb(237, 240, 241) 0%, rgba(255,255,255,1) 100%);
+            background: linear-gradient(
+                0deg,
+                rgb(237, 240, 241) 0%,
+                rgba(255, 255, 255, 1) 100%
+            );
             &:hover {
                 background: none;
                 background-color: $element-white;
             }
             &:focus {
-                background: linear-gradient(0deg, rgba(255,255,255,1) 90%, rgba(188,197,201,1) 100%);
+                background: linear-gradient(
+                    0deg,
+                    rgba(255, 255, 255, 1) 90%,
+                    rgba(188, 197, 201, 1) 100%
+                );
                 outline: none;
             }
         }
@@ -131,12 +137,12 @@ body {
 #search-clear-button {
     display: none;
     position: absolute;
-    background: #F9FBFC;
+    background: #f9fbfc;
     border: none;
     height: 40%;
     right: 110px;
     top: 20px;
-    color: #3381C9;
+    color: #3381c9;
     &:hover {
         cursor: pointer;
     }
@@ -148,23 +154,8 @@ body {
 #filter-options-div {
     max-width: 93%;
     margin: auto;
-    button {
-        padding: 5px 7px;
-        margin-right: 15px;
-        min-width: 55px;
-        background-color: $element-white;
-        border: 1px solid $faded-grey;
-        border-radius: 4px;
-        color: $primary-color;
-        &:hover {
-            background-color: $filter-hover-color;
-        }
-        &:focus {
-            background-color: $primary-color;
-            color: $element-white;
-            outline: none;
-        }
-    }
+    display: flex;
+    justify-content: space-around;
 }
 
 #attribution-header {
@@ -246,7 +237,7 @@ body {
 
 .item-card-content {
     flex-grow: 1;
-    display:  flex;
+    display: flex;
     flex-direction: column;
     height: 37vh;
     padding-left: 18px;
@@ -321,7 +312,7 @@ body {
             &:hover {
                 cursor: not-allowed;
                 background-color: $faded-grey;
-                cursor: url('assets/not-available-cursor.png'), auto;
+                cursor: url("assets/not-available-cursor.png"), auto;
             }
             .clipped-play-symbol {
                 background-color: $primary-color-faded;
@@ -350,7 +341,6 @@ body {
             }
         }
     }
-
 }
 
 #modal-trailer-panel {
@@ -393,7 +383,6 @@ body {
 
 // Tablet Styling
 @media only screen and (min-width: 768px) {
-
 }
 
 // PC styling

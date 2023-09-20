@@ -1,21 +1,38 @@
-const FilterOptions = (props) => {
+import { FilterCategory, allFilters } from "../App";
+
+const FilterOptions = ({
+    currentFilter,
+    setFilter
+}: {
+    currentFilter: FilterCategory;
+    setFilter: (newFilter: FilterCategory) => void;
+}) => {
     // Pull the callback that sets the filter state off props
-    const { setFilter } = props;
 
     // Create the event handler that targets the buttons name and calls setFilter with that value
-    const onFilter = (event) => {
-        setFilter(event.target.name);
+    const onFilter = (newFilter: FilterCategory) => {
+        setFilter(newFilter);
     };
 
     // The filter button needs to be split into a reusable component.
     return (
-        <div id="filter-options-div">
-            <button className="filter-button" name="all" onClick={onFilter}>All</button>
-            <button className="filter-button" name="movie" onClick={onFilter}>Movies</button>
-            <button className="filter-button" name="tv" onClick={onFilter}>TV Shows</button>
-            <button className="filter-button" name="person" onClick={onFilter}>People</button>
-        </div>
-    )
-}
+        <fieldset id="filter-options-div" role="group">
+            <legend>Select a filter:</legend>
+            {allFilters.map((filter) => (
+                <div className="">
+                    <input
+                        type="radio"
+                        id={filter}
+                        name="drone"
+                        value={filter}
+                        checked={currentFilter === filter}
+                        onChange={() => onFilter(filter)}
+                    />
+                    <label htmlFor={filter}>{filter}</label>
+                </div>
+            ))}
+        </fieldset>
+    );
+};
 
 export default FilterOptions;
