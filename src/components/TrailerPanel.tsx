@@ -18,8 +18,7 @@ const TrailerPanel = () => {
                 <button onClick={closeTrailer}>X</button>
                 <iframe
                     title={youtubeId}
-                    src={`https://www.youtube.com/embed/${youtubeId}?&autoplay=1frameborder="0" 
-                allowfullscreen`}
+                    src={`https://www.youtube.com/embed/${youtubeId}?&autoplay=1frameborder="0"allowfullscreen="1"`}
                 ></iframe>
             </div>
         </div>

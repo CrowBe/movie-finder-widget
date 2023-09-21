@@ -1,4 +1,4 @@
-import { FilterCategory, allFilters } from "../App";
+import { allFilters, mediaTypeDisplayNames } from "../constants";
 
 const FilterOptions = ({
     currentFilter,
@@ -28,7 +28,9 @@ const FilterOptions = ({
                         checked={currentFilter === filter}
                         onChange={() => onFilter(filter)}
                     />
-                    <label htmlFor={filter}>{filter}</label>
+                    <label htmlFor={filter}>
+                        {mediaTypeDisplayNames[filter]}
+                    </label>
                 </div>
             ))}
         </fieldset>

@@ -19,12 +19,16 @@ export const ConfigContextProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [imageUrl, setImageUrl] = useState("");
-    const [youtubeId, setYoutubeId] = useState("");
-
+    const [imageUrl, setImageUrl] = useState<string>("");
+    const [youtubeId, setYoutubeId] = useState<string>("");
     return (
         <ConfigContext.Provider
-            value={{ imageUrl, youtubeId, setImageUrl, setYoutubeId }}
+            value={{
+                imageUrl: imageUrl,
+                youtubeId: youtubeId,
+                setImageUrl: setImageUrl,
+                setYoutubeId: setYoutubeId
+            }}
         >
             {children}
         </ConfigContext.Provider>

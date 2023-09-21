@@ -16,26 +16,31 @@ body {
     font-size: 2vh;
     margin: 0; }
 
-.app {
+#app-container {
   border-radius: 2px;
   overflow: hidden;
   box-shadow: 0 0 5px #d5dfe6;
   -webkit-box-shadow: 0 0 5px #d5dfe6;
-  margin: 3px; }
+  margin: 0; }
+
+header {
+  background-color: #335267;
+  padding: 10px 0; }
 
 #logo-header-div {
   position: relative;
-  background-color: #335267;
   margin: 0;
   margin-bottom: 10px;
   width: 100%;
-  line-height: 0; }
-  #logo-header-div div {
-    padding: 18px 16px; }
-    #logo-header-div div img {
-      height: 33px;
-      width: auto;
-      margin-left: 12px; }
+  line-height: 0;
+  display: flex;
+  justify-content: space-evenly;
+  justify-items: center;
+  max-width: 100%; }
+  #logo-header-div img {
+    display: block;
+    max-width: 45%;
+    height: auto; }
 
 #search-bar {
   position: relative;
@@ -105,7 +110,7 @@ body {
     display: block; }
 
 #filter-options-div {
-  max-width: 93%;
+  max-width: 90%;
   margin: auto;
   display: flex;
   justify-content: space-around; }
@@ -153,8 +158,9 @@ body {
 
 #count-description {
   max-width: 93%;
-  margin: 3vh auto 0;
-  font-size: 16px; }
+  margin: 20px auto 0;
+  font-size: 16px;
+  border-bottom: 1.2px solid #d5dfe6; }
 
 #results-container {
   position: relative; }
@@ -164,7 +170,7 @@ body {
   height: 37vh;
   max-width: 93%;
   margin: auto;
-  border-top: 1.2px solid #d5dfe6; }
+  border-bottom: 1.2px solid #d5dfe6; }
   .item-card .card-image-div {
     display: flex;
     align-items: center; }
@@ -292,10 +298,6 @@ body {
   height: 50px; }
 
 @media only screen and (min-width: 1025px) {
-  .app {
-    width: 50%;
-    margin: 3px auto; }
-
   .item-card-content .card-header-div h3 {
     font-size: 1.3em; }
   .item-card-content .card-header-div p button {
@@ -307,5 +309,12 @@ body {
 
   #search-clear-button {
     right: 130px; } }
+@media only screen and (min-width: 1440px) {
+  #results-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; }
+    #results-container #count-description {
+      grid-column: 1 / 3;
+      width: 100%; } }
 
 /*# sourceMappingURL=App.css.map */

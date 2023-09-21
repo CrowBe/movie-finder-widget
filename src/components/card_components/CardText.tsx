@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import tmdbClient from "../../api/tmdbClient";
 import LinesEllipsis from "react-lines-ellipsis";
-import { ResultItem } from "../../App";
+import { getPersonDetails } from "../../services";
 
 const CardText = ({ item }: { item: ResultItem }) => {
-    const [text, setText] = useState<string>(item.overview);
+    const [text, setText] = useState<string>();
 
     useEffect(() => {
         // Retrieve biography information for the person media type
         if (item.media_type === "person") {
-            tmdbClient
-                .get(`/person/${item.id}`)
-                .then((response) => setText(response.data.biography))
+            getPersonDetails(item.id)
+                .then((response) => setText(response.biography))
                 .catch((error) => console.log(error));
+        } else {
+            setText(item.overview);
         }
     }, [item]);
 

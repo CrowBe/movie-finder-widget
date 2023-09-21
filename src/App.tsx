@@ -1,30 +1,17 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import tmdbClient from "./api/tmdbClient";
 import LogoHeader from "./components/LogoHeader";
 import AttributionHeader from "./components/AttributionHeader";
 import SearchBar from "./components/SearchBar";
 import FilterOptions from "./components/FilterOptions";
 import Results from "./components/Results";
-export type ResultItem = {
-    overview: string;
-    media_type: string;
-    id: string;
-    profile_path: string;
-    poster_path: string;
-    title: string;
-    name: string;
-    first_air_date: string;
-    release_date: string;
-    gender: number;
-    vote_average: number;
-};
-export const allFilters = ["all", "movie", "tv", "person"];
-export type FilterCategory = (typeof allFilters)[number];
+import { getApiConfiguration, getTrending, searchMulti } from "./services";
+import { useConfigContext } from "./context";
 
 function App() {
     // State to hold the results of the current api data request
-    const [results, setResults] = useState<ResultItem[]>([]);
+    const [results, setResults] = useState<ResultItem[]>();
+    const [trendingResults, setTrendingResults] = useState<ResultItem[]>();
     // Store the current page/s displayed to implement infinite scrolling/pagination
     const [page, setPage] = useState<number>(1);
     // Store the user's query on search submit to pass into a fetch request.
@@ -33,48 +20,47 @@ function App() {
     const [filter, setFilter] = useState<FilterCategory>("all");
     // Store the number of results returned
     const [total, setTotal] = useState<number>();
+    const [totalTrending, setTotalTrending] = useState<number>();
+    const { setImageUrl } = useConfigContext();
 
     useEffect(() => {
-        if (!query) {
-            tmdbClient
-                .get("/trending/all/week")
+        if (query) {
+            searchMulti(query, page)
                 .then((response) => {
-                    setResults(response.data.results);
-                })
-                .catch((err) => console.log(err));
-        } else {
-            tmdbClient
-                .get(
-                    `/search/multi?language=en-US&query=${query}&page=${page}&include_adult=false`
-                )
-                .then((response) => {
-                    setTotal(response.data.total_results);
-                    if (page === 1) {
-                        setResults(response.data.results);
-                    } else {
-                        setResults([...results, response.data.results]);
-                    }
+                    setTotal(response.total_results);
+                    setResults(response.results);
                 })
                 .catch((err) => console.log(err));
         }
         // The dependencies below trigger a warning, but following the suggestion causes
         // looping. See https://medium.com/@andrewmyint/infinite-loop-inside-useeffect-react-hooks-6748de62871
-    }, [page, query, filter]);
+    }, [page, query]);
 
+    useEffect(() => {
+        getTrending()
+            .then((response) => {
+                setTrendingResults(response.results);
+                setTotalTrending(response.results.length);
+                getApiConfiguration()
+                    .then((response) => {
+                        setImageUrl(`${response.images.secure_base_url}w185`);
+                    })
+                    .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
+    }, []);
     return (
-        <div className="app">
-            <header>
-                <LogoHeader />
-                <AttributionHeader />
-                <SearchBar
-                    query={query}
-                    setQuery={setQuery}
-                    setPage={setPage}
-                />
-                <FilterOptions setFilter={setFilter} currentFilter={filter} />
-            </header>
+        <div id="app-container">
+            <LogoHeader />
+            <AttributionHeader />
+            <SearchBar query={query} setQuery={setQuery} setPage={setPage} />
+            <FilterOptions setFilter={setFilter} currentFilter={filter} />
             {/* Pass the current collection to each component.*/}
-            <Results results={results} filter={filter} total={total} />
+            <Results
+                results={results || trendingResults}
+                filter={filter}
+                total={total || totalTrending}
+            />
         </div>
     );
 }

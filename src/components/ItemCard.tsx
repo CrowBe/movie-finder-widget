@@ -1,9 +1,7 @@
-import React from "react";
 import CardImage from "./card_components/CardImage";
 import CardHeader from "./card_components/CardHeader";
 import CardText from "./card_components/CardText";
 import CardFooter from "./card_components/CardFooter";
-import { ResultItem } from "../App";
 
 const ItemCard = ({ item }: { item: ResultItem }) => {
     // Pull the callback that sets the trailer id off props

@@ -1,30 +1,16 @@
-import { useEffect, useState } from "react";
-import tmdbClient from "../../api/tmdbClient";
+import { useEffect } from "react";
 import TrailerButton from "./TrailerButton";
-import { ResultItem } from "../../App";
+import { isPersonResult } from "../../utils";
 
 const CardFooter = ({ item }: { item: ResultItem }) => {
     // youtube Id setter to pass to the play button
     // Retrieve the item context with all the values of the current item
     // State that holds the value returned by the api call to the movie/:id/videos endpoint
-    const [trailerKey, setTrailerKey] = useState<string>();
-    const rating = item.vote_average * 10;
-
+    const rating = isPersonResult(item)
+        ? item.popularity
+        : item.vote_average * 10;
     // If the item is a movie, make an api call to the database checking if there are any trailers
     useEffect(() => {
-        if (item.media_type !== "person") {
-            tmdbClient
-                .get(`/${item.media_type}/${item.id}/videos`)
-                .then((response) => {
-                    for (let obj of response.data.results) {
-                        if (obj.type === "Trailer" && obj.site === "YouTube") {
-                            setTrailerKey(obj.key);
-                            break;
-                        }
-                    }
-                })
-                .catch((error) => console.log(error));
-        }
         const ratingBar = document.getElementById(`${item.id}rating`);
         if (ratingBar) {
             ratingBar.style.setProperty("--rating-width", `${rating}%`);
@@ -41,7 +27,7 @@ const CardFooter = ({ item }: { item: ResultItem }) => {
         return <div className="card-footer-div"></div>;
 
     return (
-        <div className="card-footer-div" id={item.id}>
+        <div className="card-footer-div" id={`${item.media_type}-${item.id}`}>
             <div className="card-ratings-div">
                 {/* Format and return the user rating */}
                 {item.vote_average > 0 ? (
@@ -62,7 +48,7 @@ const CardFooter = ({ item }: { item: ResultItem }) => {
             </div>
             <div>
                 {/* Check if the item is a movie and return button that will set that id to play in the Trailer iframe */}
-                <TrailerButton trailerKey={trailerKey} />
+                <TrailerButton mediaType={item.media_type} id={item.id} />
             </div>
         </div>
     );
