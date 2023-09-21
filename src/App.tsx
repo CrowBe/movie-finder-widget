@@ -24,13 +24,15 @@ function App() {
     const { setImageUrl } = useConfigContext();
 
     useEffect(() => {
-        if (query) {
+        if (query.length > 0) {
             searchMulti(query, page)
                 .then((response) => {
                     setTotal(response.total_results);
                     setResults(response.results);
                 })
                 .catch((err) => console.log(err));
+        } else {
+            setResults(undefined);
         }
         // The dependencies below trigger a warning, but following the suggestion causes
         // looping. See https://medium.com/@andrewmyint/infinite-loop-inside-useeffect-react-hooks-6748de62871

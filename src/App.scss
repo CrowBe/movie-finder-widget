@@ -64,88 +64,86 @@ header {
 #search-bar {
     position: relative;
     overflow: hidden;
-    div {
-        display: flex;
-        max-width: 93%;
-        margin: auto;
-        padding: 15px 0;
-        label {
-            position: absolute;
-            align-self: center;
-            padding-left: 10px;
-            img {
-                display: block;
-                height: 12px;
-                width: auto;
-            }
+    display: flex;
+    margin: auto;
+    width: 91%;
+    padding: 15px 0;
+    label {
+        position: absolute;
+        align-self: center;
+        padding-left: 10px;
+        img {
+            display: block;
+            height: 12px;
+            width: auto;
         }
-        input {
-            padding: 8px 0;
-            color: $primary-color;
-        }
+    }
+    input {
+        padding: 8px 0;
+        color: $primary-color;
+    }
 
-        input[type="text"] {
-            flex-grow: 1;
-            border-radius: 4px 0 0 4px;
-            border: 1.1px solid $faded-grey;
-            background-color: #f9fbfc;
-            padding-left: 35px;
-            font-size: 0.9em;
-            &::placeholder {
-                color: $primary-color-faded;
-            }
-            &:focus {
-                outline: none;
-                border: 1.1px solid $logo-backing-colour;
-                background-color: $element-white;
-            }
-            &:hover {
-                border: 1.1px solid $logo-backing-colour;
-                background-color: $element-white;
-            }
+    input[type="text"] {
+        flex-grow: 1;
+        border-radius: 4px 0 0 4px;
+        border: 1.1px solid $faded-grey;
+        background-color: #f9fbfc;
+        padding-left: 35px;
+        font-size: 0.9em;
+        &::placeholder {
+            color: $primary-color-faded;
         }
+        &:focus {
+            outline: none;
+            border: 1.1px solid $logo-backing-colour;
+            background-color: $element-white;
+        }
+        &:hover {
+            border: 1.1px solid $logo-backing-colour;
+            background-color: $element-white;
+        }
+    }
 
-        input[type="submit"] {
-            border-radius: 0 4px 4px 0;
-            font-family: $primary-font;
-            font-size: 1em;
-            border: 1.1px solid $faded-grey;
-            padding: 0 24px;
-            border-left: 0;
+    input[type="submit"] {
+        border-radius: 0 4px 4px 0;
+        font-family: $primary-font;
+        font-size: 1em;
+        border: 1.1px solid $faded-grey;
+        padding: 0 24px;
+        border-left: 0;
+        background: linear-gradient(
+            0deg,
+            rgb(237, 240, 241) 0%,
+            rgba(255, 255, 255, 1) 100%
+        );
+        &:hover {
+            background: none;
+            background-color: $element-white;
+        }
+        &:focus {
             background: linear-gradient(
                 0deg,
-                rgb(237, 240, 241) 0%,
-                rgba(255, 255, 255, 1) 100%
+                rgba(255, 255, 255, 1) 90%,
+                rgba(188, 197, 201, 1) 100%
             );
-            &:hover {
-                background: none;
-                background-color: $element-white;
-            }
-            &:focus {
-                background: linear-gradient(
-                    0deg,
-                    rgba(255, 255, 255, 1) 90%,
-                    rgba(188, 197, 201, 1) 100%
-                );
-                outline: none;
-            }
+            outline: none;
         }
     }
 }
 
 #search-bar-container {
     position: relative;
+    display: flex;
+    width: 100%;
 }
 
 #search-clear-button {
     display: none;
-    position: absolute;
     background: #f9fbfc;
     border: none;
     height: 40%;
-    right: 110px;
-    top: 20px;
     color: #3381c9;
+    margin: auto 10px;
     &:hover {
         cursor: pointer;
     }

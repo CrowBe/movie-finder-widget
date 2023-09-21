@@ -44,66 +44,65 @@ header {
 
 #search-bar {
   position: relative;
-  overflow: hidden; }
-  #search-bar div {
-    display: flex;
-    max-width: 93%;
-    margin: auto;
-    padding: 15px 0; }
-    #search-bar div label {
-      position: absolute;
-      align-self: center;
-      padding-left: 10px; }
-      #search-bar div label img {
-        display: block;
-        height: 12px;
-        width: auto; }
-    #search-bar div input {
-      padding: 8px 0;
-      color: #17344a; }
-    #search-bar div input[type="text"] {
-      flex-grow: 1;
-      border-radius: 4px 0 0 4px;
-      border: 1.1px solid #d5dfe6;
-      background-color: #f9fbfc;
-      padding-left: 35px;
-      font-size: 0.9em; }
-      #search-bar div input[type="text"]::placeholder {
-        color: #647f93; }
-      #search-bar div input[type="text"]:focus {
-        outline: none;
-        border: 1.1px solid #335267;
-        background-color: #fcfdfe; }
-      #search-bar div input[type="text"]:hover {
-        border: 1.1px solid #335267;
-        background-color: #fcfdfe; }
-    #search-bar div input[type="submit"] {
-      border-radius: 0 4px 4px 0;
-      font-family: "Mukta", Verdana, sans-serif;
-      font-size: 1em;
-      border: 1.1px solid #d5dfe6;
-      padding: 0 24px;
-      border-left: 0;
-      background: linear-gradient(0deg, #edf0f1 0%, white 100%); }
-      #search-bar div input[type="submit"]:hover {
-        background: none;
-        background-color: #fcfdfe; }
-      #search-bar div input[type="submit"]:focus {
-        background: linear-gradient(0deg, white 90%, #bcc5c9 100%);
-        outline: none; }
+  overflow: hidden;
+  display: flex;
+  margin: auto;
+  width: 91%;
+  padding: 15px 0; }
+  #search-bar label {
+    position: absolute;
+    align-self: center;
+    padding-left: 10px; }
+    #search-bar label img {
+      display: block;
+      height: 12px;
+      width: auto; }
+  #search-bar input {
+    padding: 8px 0;
+    color: #17344a; }
+  #search-bar input[type="text"] {
+    flex-grow: 1;
+    border-radius: 4px 0 0 4px;
+    border: 1.1px solid #d5dfe6;
+    background-color: #f9fbfc;
+    padding-left: 35px;
+    font-size: 0.9em; }
+    #search-bar input[type="text"]::placeholder {
+      color: #647f93; }
+    #search-bar input[type="text"]:focus {
+      outline: none;
+      border: 1.1px solid #335267;
+      background-color: #fcfdfe; }
+    #search-bar input[type="text"]:hover {
+      border: 1.1px solid #335267;
+      background-color: #fcfdfe; }
+  #search-bar input[type="submit"] {
+    border-radius: 0 4px 4px 0;
+    font-family: "Mukta", Verdana, sans-serif;
+    font-size: 1em;
+    border: 1.1px solid #d5dfe6;
+    padding: 0 24px;
+    border-left: 0;
+    background: linear-gradient(0deg, #edf0f1 0%, white 100%); }
+    #search-bar input[type="submit"]:hover {
+      background: none;
+      background-color: #fcfdfe; }
+    #search-bar input[type="submit"]:focus {
+      background: linear-gradient(0deg, white 90%, #bcc5c9 100%);
+      outline: none; }
 
 #search-bar-container {
-  position: relative; }
+  position: relative;
+  display: flex;
+  width: 100%; }
 
 #search-clear-button {
   display: none;
-  position: absolute;
   background: #f9fbfc;
   border: none;
   height: 40%;
-  right: 110px;
-  top: 20px;
-  color: #3381c9; }
+  color: #3381c9;
+  margin: auto 10px; }
   #search-clear-button:hover {
     cursor: pointer; }
   #search-clear-button.shown {
