@@ -1,35 +1,63 @@
 import ItemCard from "./ItemCard";
 import TrailerPanel from "./TrailerPanel";
 
+const SkeletonCard = () => (
+    <div className="skeleton-card" aria-hidden="true">
+        <div className="skeleton-image" />
+        <div className="skeleton-content">
+            <div className="skeleton-line w-70" />
+            <div className="skeleton-line w-40" />
+            <div className="skeleton-line w-90" />
+            <div className="skeleton-line w-80" />
+            <div className="skeleton-line w-60" />
+        </div>
+    </div>
+);
+
 const Results = ({
     results,
     filter,
-    total
+    total,
+    loading,
+    query,
 }: {
     results?: ResultItem[];
     filter: FilterCategory;
     total?: number;
+    loading?: boolean;
+    query: string;
 }) => {
-    // Store the base image url from a config api call and pass into context
-    // that will be made available to every item card by a react context provider
-    // Store the value retrieved set by the play trailer button most recently pressed
+    const filtered = results?.filter(
+        (item) => filter === "all" || item.media_type === filter
+    );
+    const displayCount = filtered?.length ?? 0;
 
     return (
         <section id="results-container">
-            {/* Display the total number of results - needs to be updated for filtering */}
-            <p id="count-description">
-                {total !== 1
-                    ? `${total} results found`
-                    : `${total} result found`}
-            </p>
-            {/* React context provider that can be accessed in the tree with use context */}
-            {results?.map((item) => {
-                if (filter !== "all" && item.media_type !== filter) return null;
-                return <ItemCard item={item} />;
-            })}
-            {/* This container will be target by Intersection Observer for pagination effects */}
-            <div id="observer-div"></div>
-            {/* Modal Panel component that returns null until a youtube id is present */}
+            <div className="results-header">
+                {loading ? (
+                    <span className="results-count">Loading…</span>
+                ) : (
+                    <>
+                        <span className="results-label">
+                            {query ? "Search results" : "Trending this week"}
+                        </span>
+                        <span className="results-count">
+                            {total !== undefined &&
+                                `${displayCount.toLocaleString()} of ${total.toLocaleString()} results`}
+                        </span>
+                    </>
+                )}
+            </div>
+
+            {loading
+                ? Array.from({ length: 6 }).map((_, i) => (
+                      <SkeletonCard key={i} />
+                  ))
+                : filtered?.map((item) => (
+                      <ItemCard key={`${item.media_type}-${item.id}`} item={item} />
+                  ))}
+
             <TrailerPanel />
         </section>
     );
