@@ -61,7 +61,7 @@ const AIRecommendations = ({
                             >
                                 OpenRouter
                             </a>{" "}
-                            · Llama 3.2
+                            · free models
                         </p>
                     </div>
                     <button

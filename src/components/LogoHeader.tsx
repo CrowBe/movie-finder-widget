@@ -11,7 +11,7 @@ const LogoHeader = ({ onAiClick }: { onAiClick: () => void }) => {
                 <div className="logos">
                     <img
                         src={logo}
-                        alt="Movie Finder Widget"
+                        alt="Movie Finder"
                         className="app-logo"
                     />
                     <img
@@ -26,7 +26,8 @@ const LogoHeader = ({ onAiClick }: { onAiClick: () => void }) => {
                         onClick={onAiClick}
                         aria-label="Open AI recommendations"
                     >
-                        <span className="sparkle">✨</span> AI Picks
+                        <span className="sparkle">✨</span>
+                        <span className="ai-btn-label">AI Picks</span>
                     </button>
                     <button
                         className={`about-btn${aboutOpen ? " open" : ""}`}
@@ -36,33 +37,6 @@ const LogoHeader = ({ onAiClick }: { onAiClick: () => void }) => {
                         About <span className="chevron" />
                     </button>
                 </div>
-            </div>
-
-            <div className="attribution-bar">
-                <span className="tmdb-badge">
-                    <img src={tmdbLogo} alt="TMDB" style={{ height: 12 }} />
-                    Powered by TMDB
-                </span>
-                <span>
-                    This product uses the TMDB API but is not endorsed or
-                    certified by{" "}
-                    <a
-                        href="https://www.themoviedb.org/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        TMDb
-                    </a>
-                    . Data and images subject to their{" "}
-                    <a
-                        href="https://www.themoviedb.org/documentation/api/terms-of-use"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        terms of use
-                    </a>
-                    .
-                </span>
             </div>
 
             {aboutOpen && (
