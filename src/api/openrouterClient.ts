@@ -5,7 +5,7 @@ export async function getAiRecommendations(
     context: string,
     userPrompt: string
 ): Promise<AiRecommendation[]> {
-    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
+    const apiKey = import.meta.env.OPENROUTER_API_KEY;
     if (!apiKey) throw new Error("VITE_OPENROUTER_API_KEY is not set");
 
     const systemPrompt = `You are a knowledgeable film and TV expert. The user is browsing a movie discovery app.

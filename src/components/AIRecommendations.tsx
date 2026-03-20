@@ -37,7 +37,7 @@ const AIRecommendations = ({
         }
     };
 
-    const hasApiKey = Boolean(import.meta.env.VITE_OPENROUTER_API_KEY);
+    const hasApiKey = Boolean(import.meta.env.OPENROUTER_API_KEY);
 
     return (
         <div
@@ -76,7 +76,7 @@ const AIRecommendations = ({
                 <div className="ai-panel-body">
                     {!hasApiKey && (
                         <div className="ai-error">
-                            Set <code>VITE_OPENROUTER_API_KEY</code> in your
+                            Set <code>OPENROUTER_API_KEY</code> in your
                             environment to enable AI recommendations.
                         </div>
                     )}
