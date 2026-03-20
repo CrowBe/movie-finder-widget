@@ -7,6 +7,7 @@ import Results from "./components/Results";
 import AIRecommendations from "./components/AIRecommendations";
 import { getApiConfiguration, getTrending, searchMulti } from "./services";
 import { useConfigContext } from "./context";
+import tmdbLogo from "./assets/tmdb_logo.svg";
 
 function App() {
     const [results, setResults] = useState<ResultItem[]>();
@@ -65,6 +66,29 @@ function App() {
                     searchContext={query}
                 />
             )}
+            <footer className="app-footer">
+                <img src={tmdbLogo} alt="TMDB" className="footer-tmdb-logo" />
+                <span>
+                    This product uses the TMDB API but is not endorsed or
+                    certified by{" "}
+                    <a
+                        href="https://www.themoviedb.org/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        TMDb
+                    </a>
+                    . Data and images subject to their{" "}
+                    <a
+                        href="https://www.themoviedb.org/documentation/api/terms-of-use"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        terms of use
+                    </a>
+                    .
+                </span>
+            </footer>
         </div>
     );
 }

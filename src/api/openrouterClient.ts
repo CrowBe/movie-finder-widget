@@ -1,5 +1,15 @@
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
-const MODEL = "meta-llama/llama-3.2-3b-instruct:free";
+
+// Ordered list of free models. OpenRouter will try each in sequence if one is
+// rate-limited or unavailable, so a transient 429 on one provider won't fail
+// the whole request.
+const FREE_MODELS = [
+    "meta-llama/llama-3.2-3b-instruct:free",
+    "meta-llama/llama-3.1-8b-instruct:free",
+    "qwen/qwen-2.5-7b-instruct:free",
+    "google/gemma-2-9b-it:free",
+    "mistralai/mistral-7b-instruct:free",
+];
 
 export async function getAiRecommendations(
     context: string,
@@ -30,7 +40,10 @@ Respond ONLY with a valid JSON array — no markdown fences, no explanation — 
             "X-Title": "Movie Finder Widget",
         },
         body: JSON.stringify({
-            model: MODEL,
+            // Pass all models with route:"fallback" so OpenRouter automatically
+            // tries the next model if the current one is rate-limited (429).
+            models: FREE_MODELS,
+            route: "fallback",
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: userMessage },
