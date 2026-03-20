@@ -45,7 +45,6 @@ type PersonResult = Result & {
     profile_path: string;
     known_for: (MovieResult | TVResult)[];
     media_type: "person";
-    popularity: number;
 };
 
 type ResultItem = MovieResult | TVResult | PersonResult;
@@ -72,7 +71,7 @@ type ResultVideoResponse = {
 
 type PersonDetails = {
     adult: boolean;
-    also_known_as: string[],
+    also_known_as: string[];
     biography: string;
     birthday: string | null;
     deathday: string | null;
@@ -83,6 +82,11 @@ type PersonDetails = {
     known_for_department: string;
     name: string;
     place_of_birth: string | null;
-    popularity: number
+    popularity: number;
     profile_path: string;
-}
+};
+
+type AiRecommendation = {
+    title: string;
+    description: string;
+};

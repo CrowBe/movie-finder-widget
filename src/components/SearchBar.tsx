@@ -1,65 +1,73 @@
-import { SetStateAction, useState } from "react";
-import searchIcon from "../assets/Icons-search@1x.png";
+import { useState } from "react";
 
-const SearchBar = (props: {
+const SearchIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+    </svg>
+);
+
+const SearchBar = ({
+    query,
+    setQuery,
+    setPage,
+}: {
     query: string;
-    setQuery: React.Dispatch<SetStateAction<string>>;
-    setPage: React.Dispatch<SetStateAction<number>>;
+    setQuery: React.Dispatch<React.SetStateAction<string>>;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-    // State setter for setting a search query.
-    const { query, setQuery, setPage } = props;
-    // local piece of state to ensure the text input is controlled
     const [input, setInput] = useState("");
 
-    // Event handler that handles search submission by passing current input state to query setter
-    const onSearchSubmit = (event: React.FormEvent) => {
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
         setQuery(input);
-        event.preventDefault();
-        document.getElementById("search-clear-button")?.classList.add("shown");
+        setPage(1);
     };
 
-    const clearQuery = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const onClear = () => {
         setInput("");
         setQuery("");
         setPage(1);
-        event.currentTarget.classList.remove("shown");
-        event.preventDefault();
     };
 
-    const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(event.currentTarget.value);
-        // If the user manually removes the search term. Set the query back to nothing and hide the clear button
-        if (event.currentTarget.value === "" && query !== "") {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value;
+        setInput(value);
+        if (value === "" && query !== "") {
             setQuery("");
-            document
-                .getElementById("search-clear-button")
-                ?.classList.remove("shown");
         }
     };
 
-    // basic search bar
     return (
-        <div id="search-bar-container">
-            <form id="search-bar" onSubmit={onSearchSubmit}>
-                <label htmlFor="input">
-                    <img src={searchIcon} alt="magnifying glass" />
+        <div className="search-section">
+            <form className="search-form" onSubmit={onSubmit} role="search">
+                <label className="search-icon" htmlFor="search-input" aria-label="Search">
+                    <SearchIcon />
                 </label>
                 <input
                     type="text"
-                    id="input"
-                    name="input"
+                    id="search-input"
+                    name="q"
                     value={input}
-                    onChange={onSearchChange}
-                    placeholder="Search for movies, tv shows or people..."
+                    onChange={onChange}
+                    placeholder="Search movies, TV shows, or people…"
+                    autoComplete="off"
+                    aria-label="Search movies, TV shows, or people"
                 />
                 <button
-                    onClick={clearQuery}
                     type="button"
-                    id="search-clear-button"
+                    className={`clear-btn${input ? " visible" : ""}`}
+                    onClick={onClear}
+                    aria-label="Clear search"
                 >
-                    clear
+                    ✕
                 </button>
-                <input type="submit" value="Search" form="search-bar" />
+                <input
+                    type="submit"
+                    value="Search"
+                    className="search-submit"
+                    aria-label="Submit search"
+                />
             </form>
         </div>
     );

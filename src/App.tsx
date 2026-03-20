@@ -1,68 +1,70 @@
 import { useEffect, useState } from "react";
-import "./App.css";
+import "./App.scss";
 import LogoHeader from "./components/LogoHeader";
-import AttributionHeader from "./components/AttributionHeader";
 import SearchBar from "./components/SearchBar";
 import FilterOptions from "./components/FilterOptions";
 import Results from "./components/Results";
+import AIRecommendations from "./components/AIRecommendations";
 import { getApiConfiguration, getTrending, searchMulti } from "./services";
 import { useConfigContext } from "./context";
 
 function App() {
-    // State to hold the results of the current api data request
     const [results, setResults] = useState<ResultItem[]>();
     const [trendingResults, setTrendingResults] = useState<ResultItem[]>();
-    // Store the current page/s displayed to implement infinite scrolling/pagination
     const [page, setPage] = useState<number>(1);
-    // Store the user's query on search submit to pass into a fetch request.
     const [query, setQuery] = useState<string>("");
-    // Control the input state of the search bar until user submission
     const [filter, setFilter] = useState<FilterCategory>("all");
-    // Store the number of results returned
     const [total, setTotal] = useState<number>();
-    const [totalTrending, setTotalTrending] = useState<number>();
+    const [loading, setLoading] = useState(false);
+    const [aiOpen, setAiOpen] = useState(false);
     const { setImageUrl } = useConfigContext();
 
+    // Fetch trending + API config on mount
     useEffect(() => {
-        if (query.length > 0) {
-            searchMulti(query, page)
-                .then((response) => {
-                    setTotal(response.total_results);
-                    setResults(response.results);
-                })
-                .catch((err) => console.log(err));
-        } else {
-            setResults(undefined);
-        }
-        // The dependencies below trigger a warning, but following the suggestion causes
-        // looping. See https://medium.com/@andrewmyint/infinite-loop-inside-useeffect-react-hooks-6748de62871
-    }, [page, query]);
-
-    useEffect(() => {
-        getTrending()
-            .then((response) => {
-                setTrendingResults(response.results);
-                setTotalTrending(response.results.length);
-                getApiConfiguration()
-                    .then((response) => {
-                        setImageUrl(`${response.images.secure_base_url}w185`);
-                    })
-                    .catch((err) => console.log(err));
+        setLoading(true);
+        Promise.all([getTrending(), getApiConfiguration()])
+            .then(([trending, config]) => {
+                setTrendingResults(trending.results);
+                setImageUrl(`${config.images.secure_base_url}w185`);
             })
-            .catch((err) => console.log(err));
-    }, []);
+            .catch(console.error)
+            .finally(() => setLoading(false));
+    }, [setImageUrl]);
+
+    // Fetch search results when query or page changes
+    useEffect(() => {
+        if (!query) {
+            setResults(undefined);
+            return;
+        }
+        setLoading(true);
+        searchMulti(query, page)
+            .then((response) => {
+                setTotal(response.total_results);
+                setResults(response.results);
+            })
+            .catch(console.error)
+            .finally(() => setLoading(false));
+    }, [query, page]);
+
     return (
         <div id="app-container">
-            <LogoHeader />
-            <AttributionHeader />
+            <LogoHeader onAiClick={() => setAiOpen(true)} />
             <SearchBar query={query} setQuery={setQuery} setPage={setPage} />
             <FilterOptions setFilter={setFilter} currentFilter={filter} />
-            {/* Pass the current collection to each component.*/}
             <Results
-                results={results || trendingResults}
+                results={results ?? trendingResults}
                 filter={filter}
-                total={total || totalTrending}
+                total={total ?? trendingResults?.length}
+                loading={loading}
+                query={query}
             />
+            {aiOpen && (
+                <AIRecommendations
+                    onClose={() => setAiOpen(false)}
+                    searchContext={query}
+                />
+            )}
         </div>
     );
 }

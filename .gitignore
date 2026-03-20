@@ -8,6 +8,10 @@
 
 # production
 /build
+/dist
+
+# TypeScript build info
+*.tsbuildinfo
 
 # misc
 .env

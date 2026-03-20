@@ -2,39 +2,24 @@ import { allFilters, mediaTypeDisplayNames } from "../constants";
 
 const FilterOptions = ({
     currentFilter,
-    setFilter
+    setFilter,
 }: {
     currentFilter: FilterCategory;
     setFilter: (newFilter: FilterCategory) => void;
-}) => {
-    // Pull the callback that sets the filter state off props
-
-    // Create the event handler that targets the buttons name and calls setFilter with that value
-    const onFilter = (newFilter: FilterCategory) => {
-        setFilter(newFilter);
-    };
-
-    // The filter button needs to be split into a reusable component.
-    return (
-        <fieldset id="filter-options-div" role="group">
-            <legend>Select a filter:</legend>
-            {allFilters.map((filter) => (
-                <div className="">
-                    <input
-                        type="radio"
-                        id={filter}
-                        name="drone"
-                        value={filter}
-                        checked={currentFilter === filter}
-                        onChange={() => onFilter(filter)}
-                    />
-                    <label htmlFor={filter}>
-                        {mediaTypeDisplayNames[filter]}
-                    </label>
-                </div>
-            ))}
-        </fieldset>
-    );
-};
+}) => (
+    <div className="filters-section" role="group" aria-label="Filter by media type">
+        <span className="filter-label">Filter:</span>
+        {allFilters.map((filter) => (
+            <button
+                key={filter}
+                className={`filter-pill${currentFilter === filter ? " active" : ""}`}
+                onClick={() => setFilter(filter)}
+                aria-pressed={currentFilter === filter}
+            >
+                {mediaTypeDisplayNames[filter]}
+            </button>
+        ))}
+    </div>
+);
 
 export default FilterOptions;

@@ -1,46 +1,48 @@
-import React from "react";
 import { useConfigContext } from "../../context";
 import { getResultVideos } from "../../services";
 import { mediaTypeDisplayNames } from "../../constants";
 
-const TrailerButton = ({ mediaType, id }: { mediaType: 'person' | 'tv' | 'movie', id: number }) => {
-    // Component will render if the current Item is a movie
+const PlayIcon = () => <span className="play-icon" aria-hidden="true" />;
+
+const TrailerButton = ({
+    mediaType,
+    id,
+}: {
+    mediaType: "person" | "tv" | "movie";
+    id: number;
+}) => {
     const { setYoutubeId } = useConfigContext();
 
-    // Passing the youtube trailer id back up the chain
-    const onPlayTrailer = (type: 'tv' | 'movie') => {
-            getResultVideos(type, id)
-                .then((response) => {
-                    let trailerKey = response.results.find(
-                        ({ type, site }) =>
-                            type === "Trailer" && site === "YouTube"
-                    )?.key
-                    if (trailerKey) {
-                        setYoutubeId(trailerKey
-                            );
-                    } else {
-                        alert(`No Trailer found for this ${mediaTypeDisplayNames[mediaType]}`)
-                    }
-                })
-                .catch((error) => console.log(error));
+    const onPlay = (type: "tv" | "movie") => {
+        getResultVideos(type, id)
+            .then((response) => {
+                const key = response.results.find(
+                    (v) => v.type === "Trailer" && v.site === "YouTube"
+                )?.key;
+                if (key) {
+                    setYoutubeId(key);
+                } else {
+                    alert(`No trailer found for this ${mediaTypeDisplayNames[type]}`);
+                }
+            })
+            .catch(console.error);
     };
 
-    // Returns a different button that is formatted differently and doesn't have access to the state setter
-    if (mediaType === 'person') {
+    if (mediaType === "person") {
         return (
-            <button className="no-trailer-button">
-                <span className="clipped-play-symbol"></span>Trailer Unavailable
+            <button className="no-trailer-button" disabled aria-label="Trailer unavailable">
+                <PlayIcon /> Unavailable
             </button>
         );
     }
-    // Button with access to the Item's trailer id and the state setter
+
     return (
         <button
-            onClick={() => onPlayTrailer(mediaType)}
-            id={`${mediaType}-${id}`}
             className="card-trailer-button"
+            onClick={() => onPlay(mediaType)}
+            aria-label={`Play trailer for this ${mediaTypeDisplayNames[mediaType]}`}
         >
-            <span className="clipped-play-symbol"></span>Play Trailer
+            <PlayIcon /> Trailer
         </button>
     );
 };
