@@ -53,18 +53,23 @@ body {
         align-items: center;
         justify-content: space-between;
         gap: 0.75rem;
+        flex-wrap: wrap;
 
         .logos {
             display: flex;
             align-items: center;
             gap: 1rem;
+            min-width: 0;
 
             .app-logo {
-                height: 32px;
+                height: auto;
                 width: auto;
+                max-height: 28px;
+                max-width: min(260px, calc(100vw - 220px));
 
                 @media (min-width: 640px) {
-                    height: 40px;
+                    max-height: 40px;
+                    max-width: none;
                 }
             }
 
@@ -85,6 +90,7 @@ body {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            margin-left: auto;
 
             @media (min-width: 640px) {
                 gap: 0.75rem;
@@ -627,8 +633,8 @@ body {
         border: 1px solid $border;
         // Rounded top corners only on mobile (bottom sheet style)
         border-radius: $radius-lg $radius-lg 0 0;
-        width: 100%;
-        max-width: 100%;
+        width: 100vw;
+        max-width: 100vw;
         // 90% of viewport height on mobile for comfortable reach
         max-height: 90dvh;
         display: flex;
@@ -637,6 +643,7 @@ body {
         animation: slideUp 0.25s ease;
 
         @media (min-width: 640px) {
+            width: auto;
             max-width: 600px;
             max-height: 85dvh;
             border-radius: $radius-lg;
