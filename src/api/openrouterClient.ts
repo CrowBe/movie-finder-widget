@@ -1,13 +1,50 @@
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-// Ordered list of free models. OpenRouter will try each in sequence if one is
-// rate-limited or unavailable, so a transient 429 on one provider won't fail
-// the whole request.
+// Diverse free models from different providers/backends.
+// More variety = lower chance every model is rate-limited simultaneously.
+// Ordered from most-capable to least so OpenRouter's fallback logic
+// tries the best option first.
 const FREE_MODELS = [
-    "meta-llama/llama-3.2-3b-instruct:free",
-    "qwen/qwen-2.5-7b-instruct:free",
-    "mistralai/mistral-7b-instruct:free",
+    "meta-llama/llama-3.3-70b-instruct:free",   // Meta / multiple providers
+    "deepseek/deepseek-chat-v3-0324:free",        // DeepSeek
+    "qwen/qwen3-235b-a22b:free",                  // Alibaba Cloud
+    "google/gemini-2.0-flash-exp:free",           // Google
+    "mistralai/mistral-small-3.1-24b-instruct:free", // Mistral
+    "meta-llama/llama-3.2-3b-instruct:free",      // Lighter fallback
 ];
+
+// Provider preferences: sort by throughput across ALL model/provider combos
+// (partition:"none" disables per-model grouping so the router picks the
+// single fastest available endpoint globally, then falls back down the list).
+const PROVIDER_PREFERENCES = {
+    sort: "throughput",
+    partition: "none",
+};
+
+const RETRY_DELAYS_MS = [2000, 4000]; // two retries: 2 s then 4 s
+
+async function fetchWithRetry(
+    url: string,
+    options: RequestInit,
+    retryDelays: number[] = RETRY_DELAYS_MS
+): Promise<Response> {
+    let lastError: Error | null = null;
+    for (let attempt = 0; attempt <= retryDelays.length; attempt++) {
+        if (attempt > 0) {
+            await new Promise((resolve) => setTimeout(resolve, retryDelays[attempt - 1]));
+        }
+        const response = await fetch(url, options);
+        // Only retry on upstream rate-limit; all other errors surface immediately.
+        if (response.status !== 429) {
+            return response;
+        }
+        lastError = new Error(
+            `OpenRouter error 429 (attempt ${attempt + 1}/${retryDelays.length + 1}): ` +
+            await response.text()
+        );
+    }
+    throw lastError;
+}
 
 export async function getAiRecommendations(
     context: string,
@@ -29,7 +66,7 @@ Respond ONLY with a valid JSON array — no markdown fences, no explanation — 
         ? `Context: ${context}\n\nUser request: ${userPrompt || "Recommend similar titles I might enjoy."}`
         : userPrompt || "Recommend popular films and TV shows right now.";
 
-    const response = await fetch(OPENROUTER_API_URL, {
+    const response = await fetchWithRetry(OPENROUTER_API_URL, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${apiKey}`,
@@ -38,10 +75,11 @@ Respond ONLY with a valid JSON array — no markdown fences, no explanation — 
             "X-Title": "Movie Finder Widget",
         },
         body: JSON.stringify({
-            // Pass all models with route:"fallback" so OpenRouter automatically
-            // tries the next model if the current one is rate-limited (429).
+            // Pass all models; OpenRouter tries each in sequence on failure.
             models: FREE_MODELS,
             route: "fallback",
+            // Sort by throughput globally across all fallback models/providers.
+            provider: PROVIDER_PREFERENCES,
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: userMessage },
