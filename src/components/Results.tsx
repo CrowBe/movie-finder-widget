@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import ItemCard from "./ItemCard";
+import Pagination from "./Pagination";
 import TrailerPanel from "./TrailerPanel";
 
 const SkeletonCard = () => (
@@ -18,19 +20,52 @@ const Results = ({
     results,
     filter,
     total,
+    totalPages,
+    page,
     loading,
+    loadingMore,
     query,
+    onLoadMore,
+    onPageChange,
 }: {
     results?: ResultItem[];
     filter: FilterCategory;
     total?: number;
+    totalPages: number;
+    page: number;
     loading?: boolean;
+    loadingMore?: boolean;
     query: string;
+    onLoadMore: () => void;
+    onPageChange: (page: number) => void;
 }) => {
+    // Server-side filtering is used for non-"all" filters, but keep as a
+    // safety guard in case any mixed results slip through on the "all" endpoint.
     const filtered = results?.filter(
         (item) => filter === "all" || item.media_type === filter
     );
     const displayCount = filtered?.length ?? 0;
+    const hasMore = page < totalPages;
+
+    // IntersectionObserver sentinel for mobile infinite scroll
+    const sentinelRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const sentinel = sentinelRef.current;
+        if (!sentinel || !hasMore || loadingMore || loading || !query) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    onLoadMore();
+                }
+            },
+            // Only auto-trigger on mobile via rootMargin; desktop uses click pagination
+            { rootMargin: "300px" }
+        );
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    }, [hasMore, loadingMore, loading, query, onLoadMore]);
 
     return (
         <section id="results-container">
@@ -57,6 +92,38 @@ const Results = ({
                 : filtered?.map((item) => (
                       <ItemCard key={`${item.media_type}-${item.id}`} item={item} />
                   ))}
+
+            {/* ── Mobile: infinite scroll sentinel + load-more fallback ── */}
+            {query && !loading && (
+                <div className="load-more-container">
+                    {/* Sentinel triggers IntersectionObserver */}
+                    <div ref={sentinelRef} className="infinite-scroll-sentinel" />
+
+                    {hasMore ? (
+                        <button
+                            className="load-more-btn"
+                            onClick={onLoadMore}
+                            disabled={loadingMore}
+                            aria-label="Load more results"
+                        >
+                            {loadingMore ? "Loading…" : "Load more"}
+                        </button>
+                    ) : (
+                        filtered && filtered.length > 0 && (
+                            <span className="load-more-info">All results loaded</span>
+                        )
+                    )}
+                </div>
+            )}
+
+            {/* ── Desktop: numbered pagination ── */}
+            {query && !loading && totalPages > 1 && (
+                <Pagination
+                    page={page}
+                    totalPages={totalPages}
+                    onPageChange={onPageChange}
+                />
+            )}
 
             <TrailerPanel />
         </section>
