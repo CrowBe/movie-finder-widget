@@ -886,6 +886,111 @@ body {
     }
 }
 
+// ─── Pagination (desktop) ─────────────────────────────────────────────────────
+// Hidden on mobile — mobile uses infinite scroll / load-more instead.
+.pagination {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 1.25rem 0 0.5rem;
+
+    @media (min-width: 640px) {
+        display: flex;
+    }
+
+    .pagination-btn {
+        background: $surface;
+        border: 1px solid $border;
+        border-radius: $radius-sm;
+        color: $text-muted;
+        font-family: $font;
+        font-size: 0.85rem;
+        min-width: 2.1rem;
+        height: 2.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 0.45rem;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, color 0.2s;
+        line-height: 1;
+
+        &:hover:not(:disabled) {
+            border-color: $primary;
+            color: $primary;
+        }
+
+        &.active {
+            background: rgba($primary, 0.12);
+            border-color: $primary;
+            color: $primary;
+            font-weight: 600;
+            cursor: default;
+        }
+
+        &:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        &.pagination-arrow {
+            font-size: 1.2rem;
+        }
+    }
+
+    .pagination-ellipsis {
+        color: $text-dim;
+        padding: 0 0.2rem;
+        font-size: 0.85rem;
+        line-height: 2.1rem;
+        pointer-events: none;
+    }
+}
+
+// ─── Load-more / infinite-scroll (mobile) ─────────────────────────────────────
+// Shown only on mobile; desktop sees numbered pagination above.
+.load-more-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 0.5rem;
+
+    @media (min-width: 640px) {
+        display: none;
+    }
+
+    .load-more-btn {
+        background: $surface;
+        border: 1px solid $border;
+        border-radius: $radius;
+        color: $text-muted;
+        font-family: $font;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.55rem 1.75rem;
+        cursor: pointer;
+        transition: border-color 0.2s, color 0.2s;
+
+        &:hover:not(:disabled) {
+            border-color: $primary;
+            color: $primary;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .load-more-info {
+        font-size: 0.75rem;
+        color: $text-dim;
+    }
+}
+
 // ─── Footer ──────────────────────────────────────────────────────────────────
 .app-footer {
     display: flex;
@@ -957,7 +1062,9 @@ body {
         grid-template-columns: 1fr 1fr;
         column-gap: 1.5rem;
 
-        .results-header { grid-column: 1 / -1; }
+        .results-header,
+        .pagination,
+        .load-more-container { grid-column: 1 / -1; }
     }
 }
 
